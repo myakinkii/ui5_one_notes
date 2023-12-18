@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<ResponsivePopover showHeader="false" class="sapUiContentPadding" placement="Top" >
+        <List width="25rem" items="{notes}" >
+            <DisplayListItem label="{title}" value="{date}" />
+        </List>
+	</ResponsivePopover>
+</core:FragmentDefinition>

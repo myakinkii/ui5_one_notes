@@ -1,0 +1,14 @@
+{
+  "name": "ui5_one_notes",
+  "version": "1.0.0",
+  "author": "Alex Myakinkii",
+  "license": "MIT",
+  "description": "UI5 app to visualize MS OneNote notes",
+  "scripts": {
+    "start": "ui5 serve",
+    "build": "ui5 build"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^3"
+  }
+}

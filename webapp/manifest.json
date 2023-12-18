@@ -1,0 +1,22 @@
+{
+    "sap.app": {
+        "id": "ui5_one_notes",
+        "applicationVersion": {
+            "version": "1.0.0"
+        }
+    },
+    "sap.ui5": {
+        "rootView": {
+            "viewName": "ui5_one_notes.Main",
+            "type": "XML",
+            "async": true
+        },
+        "dependencies": {
+            "libs": {
+                "sap.f": {},
+                "sap.m": {},
+                "sap.ui.core": {}
+            }
+        }
+    }
+}

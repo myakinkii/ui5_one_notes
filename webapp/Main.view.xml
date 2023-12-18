@@ -1,0 +1,96 @@
+<mvc:View
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:grid="sap.ui.layout.cssgrid"
+	xmlns:f="sap.f"
+	xmlns:dnd="sap.ui.core.dnd"
+	xmlns:dnd-grid="sap.f.dnd"
+	xmlns:graph="sap.suite.ui.commons.networkgraph"
+    xmlns:layout="sap.suite.ui.commons.networkgraph.layout"
+	controllerName="ui5_one_notes.Main">
+	<Panel expanded="true" expandable="true" id="panelForGridList" backgroundDesign="Transparent">
+		<headerToolbar>
+			<Toolbar height="3rem">
+				<Title text="Notes Grid"/>
+				<ToolbarSpacer />
+				<SearchField id="search" width="15rem" search="onSearch" liveChange="onSearch" />
+				<ToolbarSpacer />
+				<Button icon="sap-icon://paste" text="text" press="importNotes" />
+				<Button icon="sap-icon://save" text="enex" press="exportNotes" />
+				<Button icon="sap-icon://download-from-cloud" text="json" press="exportJSON" />
+				<Button icon="sap-icon://upload-to-cloud" text="json" press="importJson" />
+			</Toolbar>
+		</headerToolbar>
+
+		<f:GridList id="gridList" items="{/items}">
+
+			<f:dragDropConfig>
+				<dnd:DragInfo sourceAggregation="items" />
+				<dnd-grid:GridDropInfo targetAggregation="items" dropPosition="Between" dropLayout="Horizontal" drop="onDrop" />
+			</f:dragDropConfig>
+
+			<f:customLayout>
+				<grid:GridBoxLayout boxMinWidth="12rem" />
+			</f:customLayout>
+
+			<f:GridListItem type="Active" press="pressNote" highlight="{ path:'tags', formatter: '.formatHighlight' }" >
+				<VBox height="100%">
+					<VBox class="sapUiSmallMargin">
+						<layoutData>
+							<FlexItemData growFactor="1" shrinkFactor="0" />
+						</layoutData>
+						<Input editable="false" value="{tagStr}" />
+						<Title text="{title}" wrapping="true" />
+						<Label text="{date}" wrapping="true" class="sapUiTinyMarginBottom" />
+						<Text text="{text}" maxLines="4" wrapping="true" />
+
+					</VBox>
+				</VBox>
+			</f:GridListItem>
+		</f:GridList>
+	</Panel>
+
+	<Panel expanded="true" expandable="true" id="panelForNetworkGraph" backgroundDesign="Transparent">
+		<headerToolbar>
+			<Toolbar height="3rem">
+				<Title text="Tags Graph"/>
+			</Toolbar>
+		</headerToolbar>
+		<graph:Graph id="networkGraph"
+			enableWheelZoom="false"
+			binding="{/graph}"
+			nodes="{nodes}"
+			lines="{lines}"
+			groups="{groups}">
+			<graph:layoutAlgorithm>
+				<!-- <layout:SwimLaneChainLayout /> -->
+				<!-- <layout:LayeredLayout nodePlacement="BrandesKoepf" /> -->
+				<!-- <layout:LayeredLayout nodePlacement="LinearSegments" /> -->
+				<layout:LayeredLayout nodePlacement="Simple" />
+			</graph:layoutAlgorithm>
+			<graph:groups>
+				<graph:Group key="{key}" title="{key}"/>
+			</graph:groups>
+			<graph:nodes>
+				<graph:Node
+					key="{key}"
+					group="{key}"
+					_title="{key}"
+					showActionLinksButton="true"
+					press="searchNode"
+					attributes="{notes}"
+					shape="Box">
+					<!-- <graph:actionButtons>
+						<graph:ActionButton position="Left" icon="sap-icon://question-mark"/>
+					</graph:actionButtons> -->
+					<graph:attributes>
+						<graph:ElementAttribute label="{= ${title} || 'no title' }" value="{date}" />
+					</graph:attributes>
+				</graph:Node>
+			</graph:nodes>
+			<graph:lines>
+				<graph:Line arrowOrientation="None" from="{from}" to="{to}" press="showPopover" />
+			</graph:lines>
+		</graph:Graph>
+	</Panel>
+</mvc:View>
