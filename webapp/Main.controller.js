@@ -82,14 +82,16 @@ sap.ui.define([
                 view.addDependent(p);
                 return p;
             });
-
-            view.setModel(new JSONModel({
+            
+            var mdl = new JSONModel({
                 items: [{
                     title: "Press paste button",
                     date: "To import notes",
                     text: "Select notes in OneNote and press Ctrl+C (or Cmd+C on mac) to get imported text"
                 }]
-            }));
+            });
+            mdl.setSizeLimit(1000);
+            view.setModel(mdl)
         },
 
         onSearch:function(e){
