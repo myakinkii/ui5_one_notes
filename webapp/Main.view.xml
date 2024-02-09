@@ -15,8 +15,10 @@
 				<ToolbarSpacer />
 				<SearchField id="search" width="15rem" search="onSearch" liveChange="onSearch" />
 				<ToolbarSpacer />
+				<ToolbarSeparator />
 				<Button icon="sap-icon://paste" text="text" press="importNotes" />
 				<Button icon="sap-icon://save" text="enex" press="exportNotes" />
+				<ToolbarSeparator />
 				<Button icon="sap-icon://download-from-cloud" text="json" press="exportJSON" />
 				<Button icon="sap-icon://upload-to-cloud" text="json" press="importJson" />
 			</Toolbar>
