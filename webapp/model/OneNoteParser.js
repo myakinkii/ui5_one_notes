@@ -14,7 +14,7 @@ sap.ui.define([], function () {
         function flush(items){
             var tags
             if (title) {
-                tags = title.match(/#[^\x00-\x7Fa-zA-z0-9]+/g)
+                tags = title.match(/#[\p{L}\p{N}]+/gu) // unicode modifier was supported for a while..
             }
             if(date && text) items.push({ 
                 title : title,
