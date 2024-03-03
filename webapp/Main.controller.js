@@ -85,6 +85,7 @@ sap.ui.define([
             
             var mdl = new JSONModel({
                 items: [{
+                    dummy: true,
                     title: "Press paste button",
                     date: "To import notes",
                     text: "Select notes in OneNote and press Ctrl+C (or Cmd+C on mac) to get imported text"
@@ -152,9 +153,10 @@ sap.ui.define([
 
         importNotes:function(){
             var mdl=this.getView().getModel()
+            var current = mdl.getProperty("/items")
             navigator.clipboard.readText().then(function(result){
                 var parser = new OneNoteParser(result)
-                var notes = parser.getNotes()
+                var notes = parser.getNotes().concat( current.every( i => i.dummy ) ? [] : current )
                 mdl.setProperty("/items", notes )
                 mdl.setProperty("/graph", buildGraph(notes) )
             })
