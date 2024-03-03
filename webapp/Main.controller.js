@@ -10,20 +10,48 @@ sap.ui.define([
     "use strict";
 
     var TAGS = {
-        "#1": "Indication01",
-        "#2": "Indication02",
-        "#3": "Indication03",
-        "#foo": "Indication04",
-        "#bar": "Indication05",
-        "#baz": "Indication06",
-        "#asd": "Indication07",
-        "#qwe": "Indication08",
+        "": "Indication01",
+        "2": "Indication02",
+        "3": "Indication03",
+        "foo": "Indication04",
+        "bar": "Indication05",
+        "baz": "Indication06",
+        "asd": "Indication07",
+        "qwe": "Indication08",
+    }
+
+    var customTags = JSON.parse(window.localStorage.getItem("tags") || "null" )
+    if (customTags) TAGS = customTags
+
+    function swapReduce(obj){
+        return Object.entries(obj).reduce(function(prev, cur){
+            prev[cur[1]] = cur[0]
+            return prev;
+        },{})
     }
 
     return Controller.extend("ui5_one_notes.Main", {
 
         onInit: function () {
             var view = this.getView();
+
+            this.highLightDialog = Fragment.load({
+                id: view.getId(),
+                name: "ui5_one_notes.Highlight",
+                controller: this
+            }).then(function(dlg) {
+                view.addDependent(dlg);
+
+                dlg.setModel(new JSONModel(swapReduce(TAGS)));
+
+                dlg.getEndButton().attachPress(function(e){
+                    TAGS = swapReduce(dlg.getModel().getData())
+                    window.localStorage.setItem("tags",JSON.stringify(TAGS))
+                    dlg.close()
+                })
+
+                return dlg
+            })
 
             this.noteDialog = Fragment.load({
                 id: view.getId(),
@@ -162,9 +190,13 @@ sap.ui.define([
             })
         },
 
+        highlightTags:function(){
+            this.highLightDialog.then(function(dlg) { dlg.open() })
+        },
+
         formatHighlight:function(tags){
-            var highlight = tags && TAGS[tags[0]]
-            return highlight || 'None'
+            var highlight = tags ? tags.find(t => TAGS[t.slice(1)]) : "#"
+            return highlight ? TAGS[highlight.slice(1)] : 'None'
         },
 
         pressNote:function(e){

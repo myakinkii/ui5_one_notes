@@ -15,6 +15,7 @@
 				<ToolbarSpacer />
 				<SearchField id="search" width="15rem" search="onSearch" liveChange="onSearch" />
 				<ToolbarSpacer />
+				<Button icon="sap-icon://source-code" text="tags" press="highlightTags" />
 				<ToolbarSeparator />
 				<Button icon="sap-icon://paste" text="text" press="importNotes" />
 				<Button icon="sap-icon://save" text="enex" press="exportNotes" />

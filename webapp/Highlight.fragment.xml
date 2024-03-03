@@ -1,0 +1,38 @@
+<core:FragmentDefinition
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog contentWidth="50%" showHeader="false" class="sapUiContentPadding" placement="Auto" >
+        <List headerText="Highlights" >
+            <GroupHeaderListItem title="sap.ui.core.IndicationColor" />
+            <InputListItem highlight="Indication01" label="Indication01: #{/Indication01}" >
+                <Input width="15rem" value="{/Indication01}" />
+            </InputListItem>
+            <InputListItem highlight="Indication02" label="Indication02: #{/Indication02}" >
+                <Input width="15rem" value="{/Indication02}" />
+            </InputListItem>
+            <InputListItem highlight="Indication03" label="Indication03: #{/Indication03}" >
+                <Input width="15rem" value="{/Indication03}" />
+            </InputListItem>
+            <InputListItem highlight="Indication04" label="Indication04: #{/Indication04}" >
+                <Input width="15rem" value="{/Indication04}" />
+            </InputListItem>
+            <InputListItem highlight="Indication05" label="Indication05: #{/Indication05}" >
+                <Input width="15rem" value="{/Indication05}" />
+            </InputListItem>
+            <InputListItem highlight="Indication06" label="Indication06: #{/Indication06}" >
+                <Input width="15rem" value="{/Indication06}" />
+            </InputListItem>
+            <InputListItem highlight="Indication07" label="Indication07: #{/Indication07}" >
+                <Input width="15rem" value="{/Indication07}" />
+            </InputListItem>
+            <InputListItem highlight="Indication08" label="Indication08: #{/Indication08}" >
+                <Input width="15rem" value="{/Indication08}" />
+            </InputListItem>
+        </List>
+        <endButton>
+            <Button text="Close" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
