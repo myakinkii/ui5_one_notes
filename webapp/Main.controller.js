@@ -182,9 +182,10 @@ sap.ui.define([
         importNotes:function(){
             var mdl=this.getView().getModel()
             var current = mdl.getProperty("/items")
+            if (current.every( i => i.dummy )) current = []
             navigator.clipboard.readText().then(function(result){
                 var parser = new OneNoteParser(result)
-                var notes = parser.getNotes().concat( current.every( i => i.dummy ) ? [] : current )
+                var notes = current.concat(parser.getNotes())
                 mdl.setProperty("/items", notes )
                 mdl.setProperty("/graph", buildGraph(notes) )
             })
