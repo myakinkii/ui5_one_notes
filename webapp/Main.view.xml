@@ -11,7 +11,7 @@
 	<Panel expanded="true" expandable="true" id="panelForGridList" backgroundDesign="Transparent">
 		<headerToolbar>
 			<Toolbar height="3rem">
-				<Title text="Notes Grid ({= ${/items}.length })"/>
+				<Title text="Notes Grid ({= ${/filteredItems} || ${/items}.length })"/>
 				<ToolbarSpacer />
 				<SearchField id="search" width="15rem" search="onSearch" liveChange="onSearch" />
 				<ToolbarSpacer />

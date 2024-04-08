@@ -133,7 +133,14 @@ sap.ui.define([
                 ],false));
             }
 
-			this.byId("gridList").getBinding("items").filter(filter, "Application");
+            var listBinding = this.byId("gridList").getBinding("items")
+			listBinding.filter(filter, "Application")
+
+            var mdl=this.getView().getModel()
+            var items = filter.length ? listBinding.getCurrentContexts().map( ctx => ctx.getObject() ) : mdl.getProperty("/items")
+            mdl.setProperty("/graph", buildGraph(items) )
+            mdl.setProperty("/filteredItems", items.length)
+
         },
 
         exportJSON:function(){
