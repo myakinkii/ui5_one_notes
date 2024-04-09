@@ -9,7 +9,7 @@ return function(exportNotes, exportDate){
     const today = exportDate || (new Date()).toISOString()
 
     const notes = exportNotes.map( note=> {
-        const { title, text, date, tags } = note
+        const { title, text, dateISO, tags } = note
         return `<note>
             <title>${title}</title>
             <content>
@@ -18,7 +18,7 @@ return function(exportNotes, exportDate){
                     <en-note><div>${ text.split("\n").join('<br />') }</div></en-note>
                 ]]>
             </content>
-            <created>${ (new Date(date)).toISOString() }</created>
+            <created>${dateISO}</created>
             ${ tags ? tags.map( t => `<tag>${t}</tag>` ).join('\n') : '' }
         </note>`
     })

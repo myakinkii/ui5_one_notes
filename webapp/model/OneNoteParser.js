@@ -18,9 +18,13 @@ sap.ui.define([], function () {
             }
             if(date && text) items.push({ 
                 title : title,
-                tags: tags,
-                tagStr : tags?.join(", "),
-                date: date, 
+                tags: tags || [],
+                tagStr : tags?.join(", ") || "",
+                date: date.toLocaleString(undefined, { 
+                    year: "numeric", month: "numeric", day: "numeric",
+                    hour12: false, hour: "numeric", minute: "numeric"
+                }),
+                dateISO: date.toISOString(),
                 text: text.join("\n")
             })
         }
@@ -40,10 +44,7 @@ sap.ui.define([], function () {
                 time = newTime[0]
                 newDate.setHours(newTime[1])
                 newDate.setMinutes(newTime[2])
-                date = newDate.toLocaleString(undefined, { 
-                    year: "numeric", month: "numeric", day: "numeric",
-                    hour12: false, hour: "numeric", minute: "numeric"
-                })
+                date = newDate
                 title = lines[i-2] || ''
                 text = []
             } else {
