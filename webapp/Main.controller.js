@@ -139,7 +139,7 @@ sap.ui.define([
             var mdl=this.getView().getModel()
             var items = filter.length ? listBinding.getCurrentContexts().map( ctx => ctx.getObject() ) : mdl.getProperty("/items")
             mdl.setProperty("/graph", buildGraph(items) )
-            mdl.setProperty("/filteredItems", items.length)
+            mdl.setProperty("/filteredItems", filter.length ? items.length || '0' : null)
 
         },
 
