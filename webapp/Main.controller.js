@@ -112,6 +112,7 @@ sap.ui.define([
             });
             
             var mdl = new JSONModel({
+                deleteMode: false,
                 items: [{
                     dummy: true,
                     title: "Press paste button",
@@ -216,6 +217,28 @@ sap.ui.define([
                     return new Token({key: tag, text: tag});
                 }))
                 dlg.bindElement(ctx.getPath())
+                dlg.open()
+            }.bind(this))
+        },
+
+        toggleDeleteMode:function(e){
+            this.byId("gridList").setMode(  e.getParameter("pressed") ? "Delete" : "None" )
+        },
+
+        deleteNote:function(e){
+            var mdl=this.getView().getModel()
+            var note = e.getParameter("listItem").getBindingContext().getObject()
+            mdl.setProperty("/items", mdl.getProperty("/items").filter(item => item !== note))
+        },
+
+        addNote:function(e){
+            var mdl=this.getView().getModel()
+            var current = mdl.getProperty("/items")
+            var path = "/items/"+current.length
+            mdl.setProperty(path, OneNoteParser.prototype.makeNote())
+            this.noteDialog.then(function(dlg) {
+                this.getView().byId("tagsInput").setTokens([]);
+                dlg.bindElement(path)
                 dlg.open()
             }.bind(this))
         },

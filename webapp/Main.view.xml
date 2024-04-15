@@ -14,6 +14,9 @@
 			<ToolbarSpacer />
 			<SearchField id="search" width="15rem" search="onSearch" liveChange="onSearch" />
 			<ToolbarSpacer />
+			<Button icon="sap-icon://add" press="addNote" />
+			<ToolbarSeparator />
+			<ToggleButton icon="sap-icon://delete" pressed="{/deleteMode}" />
 		</Toolbar>
 	</customHeader>
 	<Panel expanded="true" expandable="true" id="panelForGridList" backgroundDesign="Transparent">
@@ -33,7 +36,7 @@
 			</Toolbar>
 		</headerToolbar>
 
-		<f:GridList id="gridList" items="{/items}">
+		<f:GridList id="gridList" items="{/items}" mode="{= ${/deleteMode} ? 'Delete' : 'None'}" delete="deleteNote">
 
 			<f:dragDropConfig>
 				<dnd:DragInfo sourceAggregation="items" />

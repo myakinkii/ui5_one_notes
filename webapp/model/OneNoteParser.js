@@ -6,8 +6,24 @@ sap.ui.define([], function () {
         this.notes = this.parseText(this.src)
     }
 
+    OneNoteParser.prototype.makeNote = function (title, text, tags, date){
+        if (!date) date = new Date()
+        return { 
+            title : title || "",
+            tags: tags || [],
+            tagStr : tags?.join(", ") || "",
+            date: date.toLocaleString(undefined, { 
+                year: "numeric", month: "numeric", day: "numeric",
+                hour12: false, hour: "numeric", minute: "numeric"
+            }),
+            dateISO: date.toISOString(),
+            text: text ? text.join("\n") : ""
+        }
+    }
+
     OneNoteParser.prototype.parseText = function (src){
 
+        var makeNote = this.makeNote.bind(this)
         var lines = (src||'').split("\n")
         var title, date, time, text
 
@@ -16,17 +32,7 @@ sap.ui.define([], function () {
             if (title) {
                 tags = title.match(/#[\p{L}\p{N}]+/gu) // unicode modifier was supported for a while..
             }
-            if(date && text) items.push({ 
-                title : title,
-                tags: tags || [],
-                tagStr : tags?.join(", ") || "",
-                date: date.toLocaleString(undefined, { 
-                    year: "numeric", month: "numeric", day: "numeric",
-                    hour12: false, hour: "numeric", minute: "numeric"
-                }),
-                dateISO: date.toISOString(),
-                text: text.join("\n")
-            })
+            if(date && text) items.push(makeNote(title, text, tags, date))
         }
 
         var items = lines.reduce(function(prev,cur, i){
