@@ -1,4 +1,4 @@
-<mvc:View
+<mvc:View height="100%"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:grid="sap.ui.layout.cssgrid"
@@ -8,13 +8,21 @@
 	xmlns:graph="sap.suite.ui.commons.networkgraph"
     xmlns:layout="sap.suite.ui.commons.networkgraph.layout"
 	controllerName="ui5_one_notes.Main">
+<Page>
+	<customHeader>
+		<Toolbar>
+			<ToolbarSpacer />
+			<SearchField id="search" width="15rem" search="onSearch" liveChange="onSearch" />
+			<ToolbarSpacer />
+		</Toolbar>
+	</customHeader>
 	<Panel expanded="true" expandable="true" id="panelForGridList" backgroundDesign="Transparent">
 		<headerToolbar>
 			<Toolbar height="3rem">
 				<Title text="Notes Grid ({= ${/filteredItems} || ${/items}.length })"/>
 				<ToolbarSpacer />
-				<SearchField id="search" width="15rem" search="onSearch" liveChange="onSearch" />
-				<ToolbarSpacer />
+				<!-- <SearchField id="search" width="15rem" search="onSearch" liveChange="onSearch" />
+				<ToolbarSpacer /> -->
 				<Button icon="sap-icon://source-code" text="tags" press="highlightTags" />
 				<ToolbarSeparator />
 				<Button iconFirst="false" icon="sap-icon://paste" text="import text" press="importNotes" />
@@ -96,4 +104,5 @@
 			</graph:lines>
 		</graph:Graph>
 	</Panel>
+</Page>
 </mvc:View>
