@@ -240,6 +240,7 @@ sap.ui.define([
                 dlg.setModel(new JSONModel(Object.values(allTags).sort(function(a,b){ 
                     return a.tag > b.tag ? 1 : -1
                 })));
+                dlg.setTitle("assigned: " + tags.length + ", available: " + Object.keys(allTags).length )
                 return new Promise(function(resolve,reject){
                     var resolver = function(e){
                         console.log(e.getParameters())
