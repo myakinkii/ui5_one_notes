@@ -53,6 +53,20 @@ sap.ui.define([
                 return dlg
             })
 
+            this.tagsVHDialog = Fragment.load({
+                id: view.getId(),
+                name: "ui5_one_notes.TagsVHDialog",
+                controller: this
+            }).then(function(dlg) {
+                view.addDependent(dlg);
+                var searcher = function(e){
+                    e.getSource().getBinding("items").filter([new Filter("tag", FilterOperator.Contains, e.getParameter("value"))]);
+                }
+                dlg.attachLiveChange(searcher)
+                dlg.attachSearch(searcher)
+                return dlg;
+            })
+
             this.noteDialog = Fragment.load({
                 id: view.getId(),
                 name: "ui5_one_notes.NoteDialog",
@@ -115,6 +129,7 @@ sap.ui.define([
                 deleteMode: false,
                 items: [{
                     dummy: true,
+                    tags:[],
                     title: "Press paste button",
                     date: "To import notes",
                     text: "Select notes in OneNote and press Ctrl+C (or Cmd+C on mac) to get imported text"
@@ -206,6 +221,48 @@ sap.ui.define([
         formatHighlight:function(tags){
             var highlight = tags ? tags.find(t => TAGS[t.slice(1)]) : "#"
             return highlight ? TAGS[highlight.slice(1)] : 'None'
+        },
+
+        showTagsVHDialog:function(e){
+            var mdl = this.getView().getModel()
+            var src = e.getSource()
+            var ctx = src.getBindingContext()
+            var tags = ctx.getProperty("tags") || []
+            var allTags = mdl.getProperty("/items").reduce(function(prev,cur){ // this is kinda expensive... but..
+                cur.tags.filter(function(t){
+                    return tags.indexOf(t) < 0 // filter out existing
+                }).forEach(function(t){
+                    if (!prev[t]) prev[t] = { tag: t }
+                })
+                return prev
+            },{})
+            this.tagsVHDialog.then(function(dlg) {
+                dlg.setModel(new JSONModel(Object.values(allTags).sort(function(a,b){ 
+                    return a.tag > b.tag ? 1 : -1
+                })));
+                return new Promise(function(resolve,reject){
+                    var resolver = function(e){
+                        console.log(e.getParameters())
+                        dlg.detachEvent("cancel",rejecter)
+                        resolve(e.getParameter("selectedItem").getBindingContext().getProperty("tag"))
+                    }
+                    var rejecter = function(){
+                        dlg.detachEvent("confirm",resolver)
+                        reject()
+                    }
+                    dlg.attachEventOnce("cancel", rejecter)
+                    dlg.attachEventOnce("confirm", resolver)
+                    dlg.open()
+                })
+            }.bind(this)).then(function(tag){
+                src.addToken(new Token({key: tag, text: tag}))
+                tags.push(tag)
+                mdl.setProperty("tags", tags, ctx);
+                mdl.setProperty("tagStr", tags.join(", "), ctx);
+                mdl.setProperty("/graph", buildGraph(mdl.getProperty("/items")) )
+            }).catch(function(){
+                //do nothing
+            })
         },
 
         pressNote:function(e){

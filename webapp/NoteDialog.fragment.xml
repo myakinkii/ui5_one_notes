@@ -7,7 +7,7 @@
 		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" >
             <f:content>
                 <Label text="Tags" />
-                <MultiInput id="tagsInput" showSuggestion="false" showValueHelp="false" />
+                <MultiInput id="tagsInput" showSuggestion="false" showValueHelp="true" valueHelpRequest="showTagsVHDialog" />
                 <Label text="Title" />
                 <Input value="{title}" />
                 <Label text="Date" />
