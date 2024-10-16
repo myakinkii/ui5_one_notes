@@ -145,6 +145,7 @@ sap.ui.define([
 			if (q && q.length > 0) {
                 filter.push(new Filter([
                     new Filter("title", FilterOperator.Contains, q),
+                    new Filter("text", FilterOperator.Contains, q),
                     new Filter("tagStr", FilterOperator.Contains, q)
                 ],false));
             }
