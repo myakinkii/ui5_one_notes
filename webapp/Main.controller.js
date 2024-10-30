@@ -267,9 +267,7 @@ sap.ui.define([
             })
         },
 
-        pressNote:function(e){
-            var src = e.getSource()
-            var ctx = src.getBindingContext()
+        bindNoteAndTags:function(ctx){
             this.noteDialog.then(function(dlg) {
                 var tags = ctx.getProperty("tags") || []
                 this.getView().byId("tagsInput").setTokens(tags.map(function(tag){
@@ -278,6 +276,24 @@ sap.ui.define([
                 dlg.bindElement(ctx.getPath())
                 dlg.open()
             }.bind(this))
+        },
+
+        pressNote:function(e){
+            this.bindNoteAndTags(e.getSource().getBindingContext())
+        },
+
+        navNote:function(e){
+            var currentCtxs = this.byId("gridList").getBinding("items").getCurrentContexts()
+            var selectedCtx = e.getSource().getBindingContext()
+            var index = currentCtxs.reduce(function(prev, cur, i){
+                return cur.getPath() == selectedCtx.getPath() ? i : prev
+            }, 0)
+
+            var direction = e.getSource().data("direction")
+            var newIndex = direction == "L" ? index-1 : index+1
+            if ( newIndex < 0 || newIndex >= currentCtxs.length ) return
+
+            this.bindNoteAndTags(currentCtxs[newIndex])
         },
 
         toggleDeleteMode:function(e){

@@ -2,16 +2,26 @@
     xmlns:l="sap.ui.layout"
 	xmlns:f="sap.ui.layout.form"
     xmlns="sap.m"
+    xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
     xmlns:core="sap.ui.core">
 	<Dialog contentWidth="50%" showHeader="false" class="sapUiContentPadding" placement="Auto" >
+        <subHeader>
+            <Toolbar>
+                <Button icon="sap-icon://navigation-left-arrow" custom:direction="L" press="navNote" />
+                <ToolbarSpacer />
+                <Text text="{date}" />
+                <ToolbarSpacer />
+                <Button icon="sap-icon://navigation-right-arrow" custom:direction="R" press="navNote" />
+            </Toolbar>
+        </subHeader>
 		<f:SimpleForm editable="true" layout="ResponsiveGridLayout" >
             <f:content>
                 <Label text="Tags" />
                 <MultiInput id="tagsInput" showSuggestion="false" showValueHelp="true" valueHelpRequest="showTagsVHDialog" />
                 <Label text="Title" />
                 <Input value="{title}" />
-                <Label text="Date" />
-                <Text text="{date}" />
+                <!-- <Label text="Date" /> -->
+                <!-- <Text text="{date}" /> -->
                 <Label text="Text" />
                 <TextArea rows="10" value="{text}" />
             </f:content>
